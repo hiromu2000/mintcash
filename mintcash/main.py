@@ -77,6 +77,10 @@ class MintCash(object):
         USD = book.commodities.get(mnemonic='USD')
 
         for index, tran in self.mint.get_detailed_transactions().iterrows():
+            if [tr for tr in book.transactions if tr.num==str(tran['id'])]:
+                #print 'already exists', tran['odate'], tran['merchant'], tran['amount']
+                continue
+
             a1 = book.accounts(code=str(tran['categoryId']))
             a2 = book.accounts(name=tran['account'])
             amount = Decimal("%.2f" % tran['amount'])
