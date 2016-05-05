@@ -79,9 +79,7 @@ class MintCash(object):
         for index, tran in self.mint.get_detailed_transactions().iterrows():
             a1 = book.accounts(code=str(tran['categoryId']))
             a2 = book.accounts(name=tran['account'])
-            # To avoid "OverflowError: Python int too large to convert to SQLite INTEGER"
-            getcontext().prec = 17
-            amount = Decimal(tran['amount']) * Decimal(1)
+            amount = Decimal("%.2f" % tran['amount'])
 
             piecash.Transaction(currency=USD,
                                 description=tran['merchant'],
