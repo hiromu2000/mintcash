@@ -16,6 +16,7 @@ class TestMintCash(unittest.TestCase):
     def test_mirror_mint(self):
         self.mint.create_book()
         self.mint.add_accounts()
+        self.mint.add_categories()
         self.mint.add_transactions()
 
         self.mint.add_transactions()

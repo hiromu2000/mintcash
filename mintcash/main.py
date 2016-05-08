@@ -5,6 +5,14 @@ from decimal import Decimal, getcontext
 class MintCash(object):
     mint = None
     dbname = None
+    types = {
+        'ASSET': {'name': 'Assets', 'gnucash_type': 'ASSET'},
+        'LIABILITY': {'name': 'Liabilities', 'gnucash_type': 'LIABILITY'},
+        'EXPENSE': {'name': 'Expenses', 'gnucash_type': 'EXPENSE'},
+        'INCOME': {'name': 'Income', 'gnucash_type': 'INCOME'},
+        'EQUITY': {'name': 'Equity', 'gnucash_type': 'EQUITY'},
+        'NO_CATEGORY': {'name': 'No_category', 'gnucash_type': 'ASSET'}
+    }
 
     def __init__(self, email=None, password=None, dbname=None):
         self.mint = mintapi.Mint(email, password)
@@ -18,16 +26,9 @@ class MintCash(object):
     def add_accounts(self):
         book = piecash.open_book(sqlite_file=self.dbname, readonly=False)
         USD = book.commodities.get(mnemonic='USD')
+        types = self.types
 
         # Create level=1 Gnucash accounts
-        types = {
-            'ASSET': {'name': 'Assets', 'gnucash_type': 'ASSET'},
-            'LIABILITY': {'name': 'Liabilities', 'gnucash_type': 'LIABILITY'},
-            'EXPENSE': {'name': 'Expenses', 'gnucash_type': 'EXPENSE'},
-            'INCOME': {'name': 'Income', 'gnucash_type': 'INCOME'},
-            'EQUITY': {'name': 'Equity', 'gnucash_type': 'EQUITY'},
-            'NO_CATEGORY': {'name': 'No_category', 'gnucash_type': 'ASSET'}
-        }
         for type, values in types.iteritems():
             piecash.Account(name=values['name'],
                             type=values['gnucash_type'],
@@ -45,6 +46,13 @@ class MintCash(object):
                             type=account['accountType'].upper(),
                             parent=parent,
                             commodity=USD)
+        book.save()
+        book.close()
+
+    def add_categories(self):
+        book = piecash.open_book(sqlite_file=self.dbname, readonly=False)
+        USD = book.commodities.get(mnemonic='USD')
+        types = self.types
 
         # Create level=2 Gnucash accounts for Mint depth=1 categories
         categories = {}
