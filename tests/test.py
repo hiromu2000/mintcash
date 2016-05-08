@@ -18,3 +18,5 @@ class TestMintCash(unittest.TestCase):
         self.mint.add_accounts()
         self.mint.add_categories()
         self.mint.add_transactions()
+
+        self.mint.add_transactions()

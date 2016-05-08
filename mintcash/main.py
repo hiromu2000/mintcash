@@ -30,8 +30,6 @@ class MintCash(object):
 
         # Create level=1 Gnucash accounts
         for type, values in types.iteritems():
-            if book.accounts(name=values['name']):
-                continue
             piecash.Account(name=values['name'],
                             type=values['gnucash_type'],
                             parent=book.root_account,
@@ -40,8 +38,6 @@ class MintCash(object):
 
         # Create level=2 Gnucash accounts for Mint accounts
         for account in self.mint.get_accounts():
-            if book.accounts(name=account['accountName']):
-                continue
             if account['accountType'].upper() == 'CREDIT':
                 parent = book.accounts(name=types['LIABILITY']['name'])
             else:
@@ -66,8 +62,6 @@ class MintCash(object):
             categories[parent['id']] = parent
 
         for category in categories.itervalues():
-            if book.accounts(name=category['name']):
-                continue
             if category['depth'] == 1:
                 acc = piecash.Account(name=category['name'],
                                 type=types[category['categoryType']]['gnucash_type'],
@@ -77,8 +71,6 @@ class MintCash(object):
 
         # Create level=3 Gnucash accounts for Mint depth=2 categories
         for category in categories.itervalues():
-            if book.accounts(name=category['name']):
-                continue
             if category['depth'] == 2:
                 piecash.Account(name=category['name'],
                                 type=types[category['categoryType']]['gnucash_type'],
