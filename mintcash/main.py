@@ -5,18 +5,12 @@ from decimal import Decimal, getcontext
 class MintCash(object):
     mint = None
     dbname = None
-    types = {
-        'ASSET': {'name': 'Assets', 'gnucash_type': 'ASSET'},
-        'LIABILITY': {'name': 'Liabilities', 'gnucash_type': 'LIABILITY'},
-        'EXPENSE': {'name': 'Expenses', 'gnucash_type': 'EXPENSE'},
-        'INCOME': {'name': 'Income', 'gnucash_type': 'INCOME'},
-        'EQUITY': {'name': 'Equity', 'gnucash_type': 'EQUITY'},
-        'NO_CATEGORY': {'name': 'No_category', 'gnucash_type': 'ASSET'}
-    }
+    types = None
 
-    def __init__(self, email=None, password=None, dbname=None):
+    def __init__(self, email=None, password=None, dbname=None, types=None):
         self.mint = mintapi.Mint(email, password)
         self.dbname = dbname
+        self.types = types
 
     def create_book(self):
         book = piecash.create_book(sqlite_file=self.dbname, currency='USD')

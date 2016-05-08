@@ -1,0 +1,8 @@
+{
+    "ASSET": {"name": "Assets", "gnucash_type": "ASSET"},
+    "LIABILITY": {"name": "Liabilities", "gnucash_type": "LIABILITY"},
+    "EXPENSE": {"name": "Expenses", "gnucash_type": "EXPENSE"},
+    "INCOME": {"name": "Income", "gnucash_type": "INCOME"},
+    "EQUITY": {"name": "Equity", "gnucash_type": "EQUITY"},
+    "NO_CATEGORY": {"name": "No_category", "gnucash_type": "ASSET"}
+}
