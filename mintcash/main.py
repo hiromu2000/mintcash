@@ -24,11 +24,16 @@ class MintCash(object):
 
         # Create level=1 Gnucash accounts
         for type, values in types.iteritems():
-            piecash.Account(name=values['name'],
+            acc = piecash.Account(name=values['name'],
                             type=values['gnucash_type'],
                             parent=book.root_account,
                             commodity=USD,
                             placeholder=True)
+            try:
+                book.save()
+            except ValueError:
+                #print '%s already exists!' % acc.name
+                book.cancel()
 
         # Create level=2 Gnucash accounts for Mint accounts
         for account in self.mint.get_accounts():
@@ -36,11 +41,15 @@ class MintCash(object):
                 parent = book.accounts(name=types['LIABILITY']['name'])
             else:
                 parent = book.accounts(name=types['ASSET']['name'])
-            piecash.Account(name=account['accountName'],
+            acc = piecash.Account(name=account['accountName'],
                             type=account['accountType'].upper(),
                             parent=parent,
                             commodity=USD)
-        book.save()
+            try:
+                book.save()
+            except ValueError:
+                #print '%s already exists!' % acc.name
+                book.cancel()
         book.close()
 
     def add_categories(self):
@@ -62,16 +71,25 @@ class MintCash(object):
                                 parent=book.accounts(name=types[category['categoryType']]['name']),
                                 code=str(category['id']),
                                 commodity=USD)
+                try:
+                    book.save()
+                except ValueError:
+                    #print '%s already exists!' % acc.name
+                    book.cancel()
 
         # Create level=3 Gnucash accounts for Mint depth=2 categories
         for category in categories.itervalues():
             if category['depth'] == 2:
-                piecash.Account(name=category['name'],
+                acc = piecash.Account(name=category['name'],
                                 type=types[category['categoryType']]['gnucash_type'],
                                 parent=book.accounts(code=str(category['parent']['id'])),
                                 code=str(category['id']),
                                 commodity=USD)
-        book.save()
+                try:
+                    book.save()
+                except ValueError:
+                    #print '%s already exists!' % acc.name
+                    book.cancel()
         book.close()
 
     def add_transactions(self):
