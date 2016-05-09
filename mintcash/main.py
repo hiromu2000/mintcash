@@ -13,12 +13,12 @@ class MintCash(object):
         self.types = types
 
     def create_book(self):
-        book = piecash.create_book(sqlite_file=self.dbname, currency='USD')
+        book = piecash.create_book(uri_conn=self.dbname, currency='USD')
         book.save()
         book.close()
 
     def add_accounts(self):
-        book = piecash.open_book(sqlite_file=self.dbname, readonly=False)
+        book = piecash.open_book(uri_conn=self.dbname, readonly=False, do_backup=False)
         USD = book.commodities.get(mnemonic='USD')
         types = self.types
 
@@ -44,7 +44,7 @@ class MintCash(object):
         book.close()
 
     def add_categories(self):
-        book = piecash.open_book(sqlite_file=self.dbname, readonly=False)
+        book = piecash.open_book(uri_conn=self.dbname, readonly=False, do_backup=False)
         USD = book.commodities.get(mnemonic='USD')
         types = self.types
 
@@ -75,7 +75,7 @@ class MintCash(object):
         book.close()
 
     def add_transactions(self):
-        book = piecash.open_book(sqlite_file=self.dbname, readonly=False)
+        book = piecash.open_book(uri_conn=self.dbname, readonly=False, do_backup=False)
         USD = book.commodities.get(mnemonic='USD')
 
         for index, tran in self.mint.get_detailed_transactions().iterrows():
