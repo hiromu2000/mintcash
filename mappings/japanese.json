@@ -1,0 +1,8 @@
+{
+    "ASSET": {"name": "資産", "gnucash_type": "ASSET"},
+    "LIABILITY": {"name": "負債", "gnucash_type": "LIABILITY"},
+    "EXPENSE": {"name": "費用", "gnucash_type": "EXPENSE"},
+    "INCOME": {"name": "収益", "gnucash_type": "INCOME"},
+    "EQUITY": {"name": "純資産", "gnucash_type": "EQUITY"},
+    "NO_CATEGORY": {"name": "Imbalance-USD", "gnucash_type": "ASSET"}
+}
