@@ -96,9 +96,15 @@ class MintCash(object):
         book = piecash.open_book(uri_conn=self.dbname, readonly=False, do_backup=False)
         USD = book.commodities.get(mnemonic='USD')
 
+        cnt = 0
         for index, tran in self.mint.get_detailed_transactions().iterrows():
+            if cnt > 10:
+                break
             if [tr for tr in book.transactions if tr.num==str(tran['id'])]:
                 #print 'already exists', tran['odate'], tran['merchant'], tran['amount']
+                cnt = cnt + 1
+                continue
+            if tran['isDuplicate']:
                 continue
 
             a1 = book.accounts(code=str(tran['categoryId']))
