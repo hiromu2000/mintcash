@@ -8,7 +8,7 @@ class MintCash(object):
     types = None
 
     def __init__(self, email=None, password=None, ius_session=None, thx_guid=None, dbname=None, types=None):
-        self.mint = mintapi.Mint(email, password, ius_session, thx_guid)
+        self.mint = mintapi.Mint(email, password, headless=True, mfa_method = "sms")
         self.dbname = dbname
         self.types = types
 
@@ -111,7 +111,7 @@ class MintCash(object):
                                     piecash.Split(account=a1, value=amount),
                                     piecash.Split(account=a2, value=-1 * amount)
                                 ],
-                                post_date=tran['odate'].to_datetime(),
+                                post_date=tran['odate'].to_pydatetime().date(),
                                 num=str(tran['id']))
         book.save()
         book.close()

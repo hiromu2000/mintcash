@@ -1,2 +1,2 @@
-mintapi=1.24
+mintapi=1.38
 piecash=0.12.0
