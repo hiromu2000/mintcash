@@ -7,7 +7,7 @@ class MintCash(object):
     dbname = None
     types = None
 
-    def __init__(self, email=None, password=None, ius_session=None, thx_guid=None, dbname=None, types=None):
+    def __init__(self, email=None, password=None, dbname=None, types=None):
         self.mint = mintapi.Mint(email, password, headless=True, mfa_method = "sms")
         self.dbname = dbname
         self.types = types
