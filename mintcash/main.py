@@ -1,3 +1,4 @@
+import os
 import mintapi
 import piecash
 from decimal import Decimal, getcontext
@@ -8,7 +9,12 @@ class MintCash(object):
     types = None
 
     def __init__(self, email=None, password=None, dbname=None, types=None):
-        self.mint = mintapi.Mint(email, password, headless=True, mfa_method = "sms")
+        self.mint = mintapi.Mint(email, password,
+                headless=True,
+                mfa_method = "sms",
+                wait_for_sync=False,
+                session_path=os.path.join(os.path.expanduser("~"), '.mintapi', 'session'),
+                )
         self.dbname = dbname
         self.types = types
 
