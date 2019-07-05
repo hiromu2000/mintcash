@@ -1,2 +1,3 @@
 mintapi=1.38
 piecash=0.12.0
+mysqlclient
